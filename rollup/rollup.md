@@ -37,6 +37,16 @@ npx tsc --outDir ..
 cp src/rollup/types.d.ts ../rollup.d.ts && cp LICENSE.md ../rollup.LICENSE
 ```
 
+Plugins are a total diffrent kind of beast they are not maintained at last the build is not. 
+So we need to incremental adopt them via the following pattern
+
+```js
+git clone https://github.com/rollup/plugins then run
+npx rollup-workspace -c rollup.plugins.config.js
+
+```
+
+
 ## License of this docs and added crafts
 Everything that is not 1:1 Rollup is directly Unlicensed. Including the types rollup.types.js which are drived from the original rollupTypes for adoption
 we will later when they are finished contribute them back. 
