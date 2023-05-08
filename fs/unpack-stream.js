@@ -39,8 +39,8 @@ const unpackStream = (readableStream) =>
     .pipeThrough(new TransformStream({ async transform(line, controller){
         const [filePath,content] = JSON.parse(line) // content === Array<Uint8>
         controller.enqueue([filePath, Uint8Array.from(content)]);
-    }}))
-    .pipeTo(new WritableStream({ async write(){ 
+    }}));
+    //.pipeTo(new WritableStream({ async write(){ 
         // [directoryParts,...memfsFileEntrie]
         //new Response(content).text(),json(), blob(), arrayBuffer, or ;
         
@@ -48,5 +48,5 @@ const unpackStream = (readableStream) =>
         // directoryParts.pop();
         // memfs.createDirectory(directoryParts.join('/'), {create: true});
         // memfs.writeFile(...memfsFileEntrie);
-    }}));
+    //}}));
 // });
