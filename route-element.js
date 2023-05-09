@@ -1,7 +1,20 @@
+import { parse } from './markdown/marked.min.js';
+const importMetaUrl = new URL(import.meta.url);
+
+// Implemenets early prototype of Stealifys Markdown handling behavior like parsing of inlineMarkdown 
+// when used inside div or button elemenets that get rendered.
+
+
+// URL Handling
+const baseUrl = new URL(window.location);
+// While this can be used as custom element it mainly is used most time as full application container
+// when you render and use this as customComponent / Element you will want to store data on it like
+// routeElement.dataset.url = 'protocol://<any url>'
 const routeElementDefinition = {
-  connectedCallback() { // Fires before layout paint cycles
-  // Above is Atomic. Mutation Hooks still work ofcourse.
-     //fetchWithLineIterator(url,(line)=>doc.write(parse(line))).then((done=true)=>
+  connectedCallback(el=document.body) { // Fires before layout paint cycles
+     // Above is Atomic. Mutation Hooks still work ofcourse.
+     const targetEl = this || el;
+     // fetchWithLineIterator(url,(line)=>doc.write(parse(line))).then((done=true)=>
      // Here comes the put cache logic.
      //);
      
@@ -24,15 +37,12 @@ const routeElementDefinition = {
      */  
     
     // deps
-    !document.querySelector('link[href="./layout/layout.css"]') && document.head.appendChild(cEl(
-      { rel:"stylesheet",href:"./layout/layout.css"},'link'));
+    // !document.querySelector('link[href="./layout/layout.css"]') && document.head.appendChild(cEl(
+      // { rel:"stylesheet",href:"./layout/layout.css"},'link'));
     
-    !globalThis.gradiantCss && document.head.appendChild(cEl(
-      {id:'gradiant-css',rel:"stylesheet",href:"./layout/gradient.css"},'link'));
+    // !globalThis.gradiantCss && document.head.appendChild(cEl(
+       // {id:'gradiant-css',rel:"stylesheet",href:"./layout/gradient.css"},'link'));
     
-    document.body.classList.add('gradient');
-    this.classList.add('row')
-    this.classList.add('flex-shrink-0')
     // Routing
     window.onhashchange = () => fetch(new URL(window.location.hash.slice(2),baseUrl))
       .then((r) => r.text()).then(parse).then((innerHTML)=>Object.assign(this,{innerHTML}));
@@ -59,6 +69,7 @@ const routeElementDefinition = {
      }
     }).observe(document.body,{ attributes: false, childList: true, subtree: true });
     
-  },
+  }, // When used as HTML Element this makes it return the full rendered page for caching.
+  // You Maybe want to adjust that for other usecases. 
   toString(){return `${document.head.outerHTML}\n${document.body.outerHTML}`;}
 }
