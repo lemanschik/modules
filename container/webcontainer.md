@@ -18,11 +18,11 @@ The Format is designed for streaming and loading while doing so.
 
 when a Stealify FileHandle eg holds for example ECMAScript Module code you can do this
 
-```
+```ts
 const [ref,code] = stealifyFileHandle;
 
 const modules = {};
-modules[ref] = await import(new Blob[code,{ type: 'application/javascript' }];
+modules[ref] = await import(new Blob([code,{ type: 'application/javascript' }]));
 ```
 
 You can also load anything else for example you could load images sound files any files
